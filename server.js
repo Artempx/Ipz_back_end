@@ -1,9 +1,11 @@
+// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
-const menuRoutes = require('./routes/menu');  // Подключаем menuRoutes перед использованием
+const menuRoutes = require('./routes/menu');
 const authMiddleware = require('./middleware/authMiddleware');
+const logMiddleware = require('./middleware/logMiddleware'); // Подключаем логирование
 
 const app = express();
 app.use(cors());
@@ -13,6 +15,9 @@ mongoose.connect('mongodb://localhost:27017/restaurant', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+
+// Используем middleware для логирования
+app.use(logMiddleware);
 
 // Используем маршруты
 app.use('/api', authRoutes);
