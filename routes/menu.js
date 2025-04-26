@@ -6,18 +6,19 @@ router.get('/', async (req, res) => {
       const menu = await MenuItem.getAllMenuItems();
       res.json(menu);
     } catch (err) {
-      console.error('🔥 Ошибка при получении меню:', err.message);
-      console.error(err.stack); // Печатает весь стек ошибки
+      console.error('Ошибка при получении меню:', err.message);
+      console.error(err.stack); 
       res.status(500).json({ message: 'Ошибка сервера' });
     }
   });
   
   
 router.post('/', async (req, res) => {
-    const { title, image, price } = req.body;
+    const { id,name, image, price,ordername,quantity,reviews } = req.body;
   
     try {
-      await MenuItem.addMenuItem(title, image, price); // Вызов метода модели
+      await MenuItem.addMenuItem(name, image, price, id, ordername, quantity, reviews);
+
       res.status(201).json({ message: 'Блюдо добавлено' });
     } catch (err) {
       res.status(500).json({ message: 'Ошибка при сохранении блюда' });

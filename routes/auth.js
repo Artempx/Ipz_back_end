@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = 'your_secret_key';
 
-// Регистрация
+
 router.post('/register', async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -19,7 +19,7 @@ router.post('/register', async (req, res) => {
 });
 
 
-// Авторизация
+
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 

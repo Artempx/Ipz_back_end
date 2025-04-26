@@ -7,7 +7,6 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String
 });
-// User.js
 UserSchema.statics.registerUser = async function(name, email, password) {
   const existing = await this.findOne({ email });
   if (existing) throw new Error('Пользователь уже существует');
