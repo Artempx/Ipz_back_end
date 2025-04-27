@@ -1,6 +1,7 @@
 const express=require('express');
 const router=express.Router();
 const MenuItem = require('../models/MenuItem');
+const Order = require('../models/Order');
 router.get('/', async (req, res) => {
     try {
       const menu = await MenuItem.getAllMenuItems();
@@ -14,14 +15,15 @@ router.get('/', async (req, res) => {
   
   
 router.post('/', async (req, res) => {
-    const { id,name, image, price,ordername,quantity,reviews } = req.body;
+    const { id,name, image, price,orderName,quantity,reviews,menu,nameHighlight } = req.body;
   
     try {
-      await MenuItem.addMenuItem(name, image, price, id, ordername, quantity, reviews);
+      await MenuItem.addMenuItem(id,menu,name,orderName,nameHighlight,image,price,reviews,quantity);
 
       res.status(201).json({ message: 'Блюдо добавлено' });
     } catch (err) {
       res.status(500).json({ message: 'Ошибка при сохранении блюда' });
     }
   });
+
 module.exports = router;

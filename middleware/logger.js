@@ -1,14 +1,14 @@
-// middleware/logger.js
+
 const winston = require('winston');
 
-// Создаем логгер с настройками
+
 const logger = winston.createLogger({
-  level: 'info',  // Уровень логирования
-  format: winston.format.json(),  // Формат сообщений
+  level: 'info',  
+  format: winston.format.json(),  
   transports: [
-    new winston.transports.File({ filename: 'logs/server.log' })  // Логируем в файл
+    new winston.transports.File({ filename: 'logs/server.log' }) 
   ]
 });
 
-// Экспортируем логгер
+
 module.exports = logger;

@@ -7,6 +7,7 @@ function authMiddleware(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
+    console.log('Decoded Token:', decoded);  // Выводим содержимое токена в консоль
     req.user = decoded;
     next();
   } catch (err) {

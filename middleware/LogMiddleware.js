@@ -1,17 +1,36 @@
-// middleware/logMiddleware.js
-const logger = require('./logger');  // Импортируем правильно настроенный логгер
+const logger = require('./logger');  // Підключаємо logger (winston)
 
 function logMiddleware(req, res, next) {
+  // Логування вхідного запиту
   const logMessage = {
-    method: req.method,
-    url: req.originalUrl,
-    body: req.body,  // Логируем тело запроса
-    timestamp: new Date().toISOString()
+    method: req.method,        // Метод запиту (GET, POST, тощо)
+    url: req.originalUrl,      // URL запиту
+    body: req.body,            // Тіло запиту
+    timestamp: new Date().toISOString(),  // Час запиту
   };
 
-  logger.info(logMessage);  // Логируем сообщение с использованием метода info
+  // Логування запиту
+  logger.info(`Запит: ${JSON.stringify(logMessage)}`);
 
-  next();
+  // Зберігаємо референс на оригінальний метод 'send'
+  const originalSend = res.send;
+
+  // Переоприділяємо метод 'send' для логування відповіді
+  res.send = function (body) {
+    // Логування відповіді
+    const responseLog = {
+      statusCode: res.statusCode,  // Статус код відповіді
+      body: body,                  // Тіло відповіді
+      timestamp: new Date().toISOString(),  // Час відповіді
+    };
+
+    logger.info(`Відповідь: ${JSON.stringify(responseLog)}`);
+
+    // Викликаємо оригінальний метод 'send' для відправки відповіді
+    originalSend.call(this, body);
+  };
+
+  next();  // Передаємо запит наступному middleware або маршруту
 }
 
 module.exports = logMiddleware;
